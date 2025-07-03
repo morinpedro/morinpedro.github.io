@@ -62,7 +62,7 @@ ol {
 ol > li:before {
   color: white;
   background: darkolivegreen;
-  padding: 2px 18px 2px 10px;
+  padding: 2px 22px 2px 8px;
   margin-right: 10px;
   content: counter(item);
   border-radius: 50%;

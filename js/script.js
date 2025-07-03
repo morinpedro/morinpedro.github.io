@@ -1,5 +1,5 @@
 
-for(let i = 0; i< 7; i++) {
+for(let i = 0; i< 45; i++) {
   document.getElementById('botonMostrarResumen'+i).addEventListener('click', function() {
     mostrarResumen(i);
   })
