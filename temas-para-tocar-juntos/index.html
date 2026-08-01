@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repertorio del concierto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f3ea;
+    --paper-line: #e2d9c4;
+    --ink: #2c2a3d;
+    --ink-soft: #5c5a70;
+    --gold: #a9803f;
+    --gold-soft: #c9a866;
+    --green: #4f7a5c;
+    --green-bg: #e7f0e6;
+    --amber: #9c6b1f;
+    --amber-bg: #f5ead1;
+    --gray: #6b6b6b;
+    --gray-bg: #eceae4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        var(--paper-line) 39px,
+        var(--paper-line) 40px
+      );
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 28px 100px;
+  }
+
+  header {
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+
+  header p {
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 480px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .staff {
+    margin-top: 32px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-soft), transparent);
+  }
+
+  .piece {
+    background: #fffdf8;
+    border: 1px solid var(--paper-line);
+    border-radius: 4px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 2px rgba(44,42,61,0.04);
+    overflow: hidden;
+  }
+
+  .piece-head {
+    padding: 24px 28px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid var(--paper-line);
+  }
+
+  .piece-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+
+  .piece-composer {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .badge {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .badge.confirmada { background: var(--green-bg); color: var(--green); }
+  .badge.duda { background: var(--amber-bg); color: var(--amber); }
+  .badge.preparacion { background: var(--gray-bg); color: var(--gray); }
+
+  .piece-body {
+    padding: 20px 28px 26px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 10px;
+    margin-bottom: 16px;
+  }
+
+  .link-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--paper-line);
+    padding: 7px 14px;
+    border-radius: 100px;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .link-chip:hover {
+    border-color: var(--gold-soft);
+    transform: translateY(-1px);
+  }
+
+  .link-chip .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold-soft);
+    flex-shrink: 0;
+  }
+
+  .link-chip.score .dot { background: var(--green); }
+
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin: 18px 0 8px;
+    font-weight: 600;
+  }
+
+  .comments {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    background: var(--paper);
+    border-left: 2px solid var(--gold-soft);
+    padding: 10px 16px;
+    margin-top: 4px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .comments.empty {
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+
+  footer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 48px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 40px 18px 80px; }
+    h1 { font-size: 34px; }
+    .piece-head { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Concierto en familia</div>
+    <h1>Repertorio</h1>
+    <p>Lo que vamos acordando tocar — partituras, PDFs por instrumento y estado de cada tema.</p>
+    <div class="staff"></div>
+  </header>
+
+  <div id="pieces"></div>
+
+  <footer>Página armada a mano · se actualiza a medida que se suman temas</footer>
+</div>
+
+<script>
+const pieces = [
+  {
+    title: "El oboe de Gabriel",
+    composer: "Ennio Morricone — de \"La Misión\"",
+    status: "confirmada", // confirmada | duda | preparacion
+    musescore: "https://musescore.com/user/92696269/scores/36018941/s/UoTyw8",
+    pdfGeneral: "https://drive.google.com/file/d/1SBYI6vq_Eeeqxnk8Ur0v_twzVcGexMNm/view?usp=drive_link",
+    particellas: [
+      { instrumento: "Oboe", link: "https://drive.google.com/file/d/14MrjwoIeIsZrP01iDehVq8b5KOCX2tH-/view?usp=drive_link" },
+      { instrumento: "Piano", link: "https://drive.google.com/file/d/1fAeXrqYoObVXYEWAhzGpyrqqQV0-zJMQ/view?usp=drive_link" },
+      { instrumento: "Violín", link: "https://drive.google.com/file/d/1D1jIRH3fnPP6kCKgJ7U1ZCZsV_RLAwgb/view?usp=drive_link" }
+    ],
+    comments: ""
+  },
+  {
+    title: "Hallelujah",
+    composer: "Leonard Cohen — versión instrumental",
+    status: "duda", // confirmada | duda | preparacion
+    musescore: "https://musescore.com/user/92696269/scores/36065492/s/knZ4eF?share=copy_link",
+    pdfGeneral: "https://drive.google.com/file/d/1e2GmdSeJJE2FUaBLVx9AOzTx7XMr-fT9/view?usp=drive_link",
+    particellas: [
+      { instrumento: "Flauta contralto", link: "https://drive.google.com/file/d/1oRZzXj2nCbbBp02mm-31tfCR3JrDf5vK/view?usp=drive_link" },
+      { instrumento: "Violín", link: "https://drive.google.com/file/d/1w-V9a0M4jqPJH_F2jw8DMCkgOYVULyqW/view?usp=drive_link" },
+      { instrumento: "Guitarra", link: "https://drive.google.com/file/d/1pJVL6tjnwX-GNCRrgp2SG1qGg8HEKxn4/view?usp=drive_link" },
+      { instrumento: "Piano", link: "https://drive.google.com/file/d/1YijXVKT1wzagA5sbRV8gGDC8jLiz0Wnm/view?usp=drive_link" }
+    ],
+    comments: "Tocamos esta así si nadie la quiere cantar (la flauta hace la melodía de la voz)."
+  },
+  {
+    title: "Canon de Pachelbel",
+    composer: "Johann Pachelbel — en Fa mayor",
+    status: "confirmada", // confirmada | duda | preparacion
+    musescore: "https://musescore.com/user/92696269/scores/36100346/s/kQ2L74",
+    pdfGeneral: "https://drive.google.com/file/d/1-PqZktcMdhVlQpcGKZ9l7511hAkXzKap/view?usp=drive_link",
+    particellas: [
+      { instrumento: "Violín", link: "https://drive.google.com/file/d/1U91nKrHbQc7RTuB_gEf1Ukt0wZhWDUJh/view?usp=drive_link" },
+      { instrumento: "Flauta", link: "https://drive.google.com/file/d/1tspjOMyhNP7lUZhkbxkPJqOIU6hurABs/view?usp=drive_link" },
+      { instrumento: "Guitarra", link: "https://drive.google.com/file/d/1E0A2zvP6ZNdkxG4FrCR9bi9tMpKA7N4K/view?usp=drive_link" }
+    ],
+    comments: "El piano va haciendo los acordes con el acompañamiento que Pepo aprendió en Musihacks: mano izquierda dos teclas haciendo la nota más grave, mano derecha pulgar-medio-meñique-medio."
+  }
+];
+
+const statusLabels = {
+  confirmada: "Confirmada",
+  duda: "En duda",
+  preparacion: "En preparación"
+};
+
+function renderPiece(p) {
+  const particellasHtml = p.particellas.map(part => `
+    <a class="link-chip" href="${part.link}" target="_blank" rel="noopener">
+      <span class="dot"></span>${part.instrumento}
+    </a>
+  `).join('');
+
+  return `
+    <div class="piece">
+      <div class="piece-head">
+        <div>
+          <p class="piece-title">${p.title}</p>
+          <p class="piece-composer">${p.composer}</p>
+        </div>
+        <span class="badge ${p.status}">${statusLabels[p.status] || p.status}</span>
+      </div>
+      <div class="piece-body">
+        <div class="row">
+          <a class="link-chip score" href="${p.musescore}" target="_blank" rel="noopener">
+            <span class="dot"></span>Partitura en MuseScore
+          </a>
+          ${p.pdfGeneral ? `
+          <a class="link-chip" href="${p.pdfGeneral}" target="_blank" rel="noopener">
+            <span class="dot"></span>PDF general
+          </a>` : ''}
+        </div>
+
+        ${p.particellas.length ? `
+        <div class="section-label">Particellas</div>
+        <div class="row">${particellasHtml}</div>
+        ` : ''}
+
+        <div class="section-label">Comentarios</div>
+        <div class="comments ${p.comments ? '' : 'empty'}">
+          ${p.comments || 'Sin comentarios todavía.'}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function render() {
+  const container = document.getElementById('pieces');
+  if (pieces.length === 0) {
+    container.innerHTML = `<div class="empty-state">Todavía no hay temas cargados.</div>`;
+    return;
+  }
+  container.innerHTML = pieces.map(renderPiece).join('');
+}
+
+render();
+</script>
+</body>
+</html>
